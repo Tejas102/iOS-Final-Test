@@ -19,6 +19,57 @@ class RestaurantMapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("loaded the map screen")
+        // EXAMPLE 1: Configuring what is displayed inside the map
+        // ------------------------------------------------
+        // set the center of the map
+        let x = CLLocationCoordinate2DMake(43.68207, -79.40041)
+        
+        // pick a zoom level
+        let y = MKCoordinateSpanMake(0.01, 0.01)
+        
+        // set the region property of the mapview
+        let z = MKCoordinateRegionMake(x, y)
+        self.mapView.setRegion(z, animated: true)
+        
+        
+        // EXAMPLE 2:  Add a pin to the map
+        // ------------------------------------------------
+        
+        // 1. Create a pin object
+        let pin = MKPointAnnotation()
+        
+        // 2. Set the latitude / longitude of the pin
+        pin.coordinate = x
+        
+        // 3. OPTIONAL: add a information popup (a "bubble")
+        pin.title = "Scaramouche Restaurant"
+
+        // 4. Show the pin on the map
+        self.mapView.addAnnotation(pin)
+        
+        // PRACTICE: Add another pin to the map
+        let pin2 = MKPointAnnotation()
+        pin2.coordinate = CLLocationCoordinate2DMake(43.648033, -79.374377)
+        self.mapView.addAnnotation(pin2)
+        pin2.title = "The Sultan's Tent"
+        // EXAMPLE 3:  Add a line to the map
+        // ------------------------------------------------
+        
+        // 1. Create the coordinates for your line
+        // 2. Put these coordinates in an array
+        // 3. Create an MKPolyline object
+//        mapView.delegate = self
+//
+//        // cn tower
+//        let pos1 = CLLocationCoordinate2DMake(43.68207, -79.40041)
+//        // lambton in toronto
+//        let pos2 = CLLocationCoordinate2DMake(43.648033, -79.374377)
+//
+//        var locations = [pos1, pos2]
+//
+     //   let polyline = MKPolyline(coordinates: &locations, count: locations.count)
+        
+    //    mapView.add(polyline)
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,13 +82,25 @@ class RestaurantMapViewController: UIViewController, MKMapViewDelegate {
     @IBAction func zoomInPressed(_ sender: Any) {
         
         print("zoom in!")
+        var r = mapView.region
         
+        print("Current zoom: \(r.span.latitudeDelta)")
+        
+        r.span.latitudeDelta = r.span.latitudeDelta / 4
+        r.span.longitudeDelta = r.span.longitudeDelta / 4
+        print("New zoom: \(r.span.latitudeDelta)")
+        print("-=------")
+        self.mapView.setRegion(r, animated: true)
         // HINT: Check MapExamples/ViewController.swift
     }
     
     @IBAction func zoomOutPressed(_ sender: Any) {
         // zoom out
         print("zoom out!")
+        var r = mapView.region
+        r.span.latitudeDelta = r.span.latitudeDelta * 2
+        r.span.longitudeDelta = r.span.longitudeDelta * 2
+        self.mapView.setRegion(r, animated: true)
         
         // HINT: Check MapExamples/ViewController.swift
     }
