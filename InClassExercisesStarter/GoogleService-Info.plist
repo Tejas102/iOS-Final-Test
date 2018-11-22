@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>435178432701-7bavbj1ocqqb2k2tl7s7s6p9ujo1oj6a.apps.googleusercontent.com</string>
+	<string>312897874170-874j3fhv4mu8s0530j3rlb5aa8jrdra6.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.435178432701-7bavbj1ocqqb2k2tl7s7s6p9ujo1oj6a</string>
+	<string>com.googleusercontent.apps.312897874170-874j3fhv4mu8s0530j3rlb5aa8jrdra6</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAvLMDHoUOVIdof1bXefOiCbfEnTp4wXJk</string>
+	<string>AIzaSyClRiVt1Zw4Jkkiz_SUsz3-xIj4tiAbll4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>435178432701</string>
+	<string>312897874170</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>boardroom.FirebaseExamples</string>
 	<key>PROJECT_ID</key>
-	<string>myawesomeproject-ded96</string>
+	<string>tejasfinaltestios</string>
 	<key>STORAGE_BUCKET</key>
-	<string>myawesomeproject-ded96.appspot.com</string>
+	<string>tejasfinaltestios.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:435178432701:ios:deb8a11dd5b0147a</string>
+	<string>1:312897874170:ios:deb8a11dd5b0147a</string>
 	<key>DATABASE_URL</key>
-	<string>https://myawesomeproject-ded96.firebaseio.com</string>
+	<string>https://tejasfinaltestios.firebaseio.com</string>
 </dict>
 </plist>
