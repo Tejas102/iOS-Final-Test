@@ -13,6 +13,8 @@ import MapKit
 
 class RestaurantMapViewController: UIViewController, MKMapViewDelegate {
 
+    let URL = "http://opentable.herokuapp.com/api/restaurants?city=Toronto&per_page=5"
+    
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
     
@@ -52,6 +54,22 @@ class RestaurantMapViewController: UIViewController, MKMapViewDelegate {
         pin2.coordinate = CLLocationCoordinate2DMake(43.648033, -79.374377)
         self.mapView.addAnnotation(pin2)
         pin2.title = "The Sultan's Tent"
+        
+        let pin3 = MKPointAnnotation()
+        pin3.coordinate = CLLocationCoordinate2DMake(43.649015, -79.420648)
+        self.mapView.addAnnotation(pin3)
+        pin3.title = "Salt Wine Bar"
+        
+        let pin4 = MKPointAnnotation()
+        pin4.coordinate = CLLocationCoordinate2DMake(43.713, -79.3996)
+        self.mapView.addAnnotation(pin4)
+        pin4.title = "North 44"
+        
+        let pin5 = MKPointAnnotation()
+        pin5.coordinate = CLLocationCoordinate2DMake(43.648996, -79.375032)
+        self.mapView.addAnnotation(pin5)
+        pin5.title = "Woods Restaurant & Bar"
+        
         // EXAMPLE 3:  Add a line to the map
         // ------------------------------------------------
         
