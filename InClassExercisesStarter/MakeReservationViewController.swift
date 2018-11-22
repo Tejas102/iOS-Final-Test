@@ -6,32 +6,40 @@
 //  Copyright © 2018 room1. All rights reserved.
 //
 
+
+
 import UIKit
 import FirebaseFirestore
+import Alamofire
+import SwiftyJSON
 
 
 class MakeReservationViewController: UIViewController {
-
+    var name = [String]()
+    @IBOutlet weak var msgL: UILabel!
     // MARK: Outlets
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var dayTextField: UITextField!
     @IBOutlet weak var seatsTextField: UITextField!
     
+    //@IBOutlet weak var lblResult: UILabel!
     // Mark: Firestore variables
     var db:Firestore!
-    
+    var bc = ""
     
     // MARK: Default Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        bc = UserDefaults.standard.string(forKey: "userId")!
+        print(bc)
         db = Firestore.firestore()
         
         let settings = db.settings
         settings.areTimestampsInSnapshotsEnabled = true
         db.settings = settings
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -41,69 +49,59 @@ class MakeReservationViewController: UIViewController {
     // MARK: Actions
     @IBAction func buttonPressed(_ sender: Any) {
         print("pressed the button")
+        // url to fetch data from webpage
+        let url = "https://opentable.herokuapp.com/api/restaurants?city=Toronto&per_page=5"
         
-        let username = nameTextField.text!
-        let day = dayTextField.text!
-        let seats = seatsTextField.text!
+        Alamofire.request(url, method: .get, parameters: nil).responseJSON {
+            (response) in
+            
+            if (response.result.isSuccess) {
+                print("awesome, i got a response from the website!")
+                // print(response.data)
+                
+                do {
+                    let json = try JSON(data:response.data!)
+                    let array = [0, 1, 2, 3, 4]
+                    for i in array
+                    {
+                        var n  = json["restaurants"][i]["name"].string!
+                        self.name.append(n)
+                        print("name == ", self.name)
+                        
+                    }
+                }
+                catch {
+                    print ("Error getting data")
+                }
+                
+            }
+        }
         
-//        Auth.auth().createUser(withUser: username, Day: day, Seats: seats) {
-//            (user, error) in
-//
-//            if (user != nil) {
-//                // 1. New user created!
-//                print("Created user: ")
-//                print("User id: \(user?.user.uid)")
-//                print("Email: \(user?.user.email)")
-//                print("DisplayName: \(user?.user.displayName)")
-//                print("EmailVerified: \(user?.user.isEmailVerified)")
-//
-//                //2. @TODO: You decide what you want to do next!
-//                // - do you want to send them to the next page?
-//                // - maybe ask them to fill in other forms?
-//                // - show a tutorial?
-//
-//            }
-//            else {
-//                // 1. Error when creating a user
-//                print("ERROR!")
-//                print(error?.localizedDescription)
-//
-//                // 2. Show the error in the UI
-//                self.statusMessageLabel.text = error?.localizedDescription
-//
-//            }
-//        }
-        
-        let reservationsRef = db.collection("reservations")
-        
-        reservationsRef.document("one").setData([
-            "username": "human",
-            "restaurant": "tim hortons",
-            "day": "first day",
-            "numSeats": "4",
-            ])
-        
-        reservationsRef.document("two").setData([
-            "username": "mouse",
-            "restaurant": "North 44",
-            "day": "22-11-2018",
-            "numSeats": "4",
-            ])
-
+        print("names = ",self.name)
+        if (name.contains(nameTextField.text!))
+        {
+            
+            // Creating collection for reservation
+            let res = db.collection("reservations")
+            
+            //Sending data to firebase firestore
+            res.document(bc + nameTextField.text! + dayTextField.text!).setData([
+                "username": bc,
+                "restaurant": nameTextField.text!,
+                "day" : dayTextField.text!,
+                "numSeats": seatsTextField.text!
+                ])
+            
+            // message after sucessful insertion
+            msgL.text = "Reservation Successfull.  Go back and see the reservations menu"
+        }
+            
+            // message if restaraunt in the the list or invalid restaraunt name
+        else
+        {
+            msgL.text = "Error! Try again later "
+        }
         
     }
     
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

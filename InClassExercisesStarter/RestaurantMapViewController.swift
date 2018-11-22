@@ -6,100 +6,93 @@
 //  Copyright © 2018 room1. All rights reserved.
 //
 
+
+
 import UIKit
 import Alamofire
 import SwiftyJSON
 import MapKit
 
 class RestaurantMapViewController: UIViewController, MKMapViewDelegate {
-
-    let URL = "http://opentable.herokuapp.com/api/restaurants?city=Toronto&per_page=5"
     
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
     
+    // variables for getting lat and
+    var lat = ""
+    var lng = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("loaded the map screen")
-        // EXAMPLE 1: Configuring what is displayed inside the map
-        // ------------------------------------------------
-        // set the center of the map
-        let x = CLLocationCoordinate2DMake(43.68207, -79.40041)
+        self.mapView.delegate = self
         
-        // pick a zoom level
-        let y = MKCoordinateSpanMake(0.01, 0.01)
+        let url = "https://opentable.herokuapp.com/api/restaurants?city=Toronto&per_page=5"
         
-        // set the region property of the mapview
-        let z = MKCoordinateRegionMake(x, y)
-        self.mapView.setRegion(z, animated: true)
+        Alamofire.request(url, method: .get, parameters: nil).responseJSON {
+            (response) in
+            
+            // -- put your code below this line
+            
+            let x = CLLocationCoordinate2DMake(43.6532, -79.3832)
+            
+            // pick a zoom level
+            let y = MKCoordinateSpanMake(0.01, 0.01)
+            
+            // set the region property of the mapview
+            let z = MKCoordinateRegionMake(x, y)
+            self.mapView.setRegion(z, animated: true)
+            
+            if (response.result.isSuccess) {
+                print("awesome, i got a response from the website!")
+                print("Response from webiste: " )
+                print(response.data)
+                
+                do {
+                    let json = try JSON(data:response.data!)
+                    print(json)
+                    // print("\(json["restaurants"][0]["name"])")
+                    let arr = [0, 1, 2, 3, 4]
+                    for i in arr
+                    {
+                        let pin = MKPointAnnotation()
+                        var lat = json["restaurants"][i]["lat"].double
+                        var lng = json["restaurants"][i]["lng"].double
+                        let x = CLLocationCoordinate2DMake(lat! , lng!)
+                        
+                        pin.coordinate = x
+                        
+                        // 3. OPTIONAL: add a information popup (a "bubble")
+                        pin.title = json["restaurants"][i]["name"].string
+                        
+                        // 4. Show the pin on the map
+                        self.mapView.addAnnotation(pin)
+                    }
+                }
+                catch {
+                    print ("Error getting data")
+                }
+                
+            }
+            
+        }
         
         
-        // EXAMPLE 2:  Add a pin to the map
-        // ------------------------------------------------
         
-        // 1. Create a pin object
-        let pin = MKPointAnnotation()
         
-        // 2. Set the latitude / longitude of the pin
-        pin.coordinate = x
-        
-        // 3. OPTIONAL: add a information popup (a "bubble")
-        pin.title = "Scaramouche Restaurant"
-
-        // 4. Show the pin on the map
-        self.mapView.addAnnotation(pin)
-        
-        // PRACTICE: Add another pin to the map
-        let pin2 = MKPointAnnotation()
-        pin2.coordinate = CLLocationCoordinate2DMake(43.648033, -79.374377)
-        self.mapView.addAnnotation(pin2)
-        pin2.title = "The Sultan's Tent"
-        
-        let pin3 = MKPointAnnotation()
-        pin3.coordinate = CLLocationCoordinate2DMake(43.649015, -79.420648)
-        self.mapView.addAnnotation(pin3)
-        pin3.title = "Salt Wine Bar"
-        
-        let pin4 = MKPointAnnotation()
-        pin4.coordinate = CLLocationCoordinate2DMake(43.713, -79.3996)
-        self.mapView.addAnnotation(pin4)
-        pin4.title = "North 44"
-        
-        let pin5 = MKPointAnnotation()
-        pin5.coordinate = CLLocationCoordinate2DMake(43.648996, -79.375032)
-        self.mapView.addAnnotation(pin5)
-        pin5.title = "Woods Restaurant & Bar"
-        
-        // EXAMPLE 3:  Add a line to the map
-        // ------------------------------------------------
-        
-        // 1. Create the coordinates for your line
-        // 2. Put these coordinates in an array
-        // 3. Create an MKPolyline object
-//        mapView.delegate = self
-//
-//        // cn tower
-//        let pos1 = CLLocationCoordinate2DMake(43.68207, -79.40041)
-//        // lambton in toronto
-//        let pos2 = CLLocationCoordinate2DMake(43.648033, -79.374377)
-//
-//        var locations = [pos1, pos2]
-//
-     //   let polyline = MKPolyline(coordinates: &locations, count: locations.count)
-        
-    //    mapView.add(polyline)
     }
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-
+    
     // MARK: Actions
-
     @IBAction func zoomInPressed(_ sender: Any) {
         
         print("zoom in!")
+        
         var r = mapView.region
         
         print("Current zoom: \(r.span.latitudeDelta)")
@@ -109,12 +102,14 @@ class RestaurantMapViewController: UIViewController, MKMapViewDelegate {
         print("New zoom: \(r.span.latitudeDelta)")
         print("-=------")
         self.mapView.setRegion(r, animated: true)
+        
         // HINT: Check MapExamples/ViewController.swift
     }
     
     @IBAction func zoomOutPressed(_ sender: Any) {
         // zoom out
         print("zoom out!")
+        
         var r = mapView.region
         r.span.latitudeDelta = r.span.latitudeDelta * 2
         r.span.longitudeDelta = r.span.longitudeDelta * 2
@@ -123,14 +118,15 @@ class RestaurantMapViewController: UIViewController, MKMapViewDelegate {
         // HINT: Check MapExamples/ViewController.swift
     }
     
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
+
