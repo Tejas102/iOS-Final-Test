@@ -10,11 +10,12 @@ import UIKit
 
 class MenuTableViewController: UITableViewController {
 
-    var items = ["Apple", "banana"]
+    var items:[String] = ["Restaurant Map", "Make a Reservation", "Show Reservation"]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Pick a Restaurant"
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,7 +36,7 @@ class MenuTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
 
         // Configure the cell...
-        cell.textLabel?.text = "Put restaurant name here"
+        cell.textLabel?.text = items[indexPath.row]
         return cell
     }
     
@@ -45,9 +46,24 @@ class MenuTableViewController: UITableViewController {
         
         print("Person clicked in row number: \(i)")
         
-        if (i == 1) {
-            performSegue(withIdentifier: "segueMakeReservation", sender: nil)
+        if items[indexPath.row] == "Restaurant Map" {
+            performSegue(withIdentifier: "Restaurantmapsegue", sender: self)
         }
+        if items[indexPath.row] == "Make a Reservation" {
+            performSegue(withIdentifier: "segueMakeReservation", sender: self)
+        }
+        if items[indexPath.row] == "Show Reservation" {
+            performSegue(withIdentifier: "showreservationsegue", sender: self)
+        }
+        else{
+            print("done")
+           // performSegue(withIdentifier: "", sender: self)
+        }
+        
+        
+//        if (i == 1) {
+//            performSegue(withIdentifier: "segueMakeReservation", sender: nil)
+//        }
         
     }
 

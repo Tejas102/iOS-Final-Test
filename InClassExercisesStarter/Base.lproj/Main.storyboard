@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="q5P-2D-QqU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="irl-Fk-UKc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -199,6 +199,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="c4E-81-OKl"/>
                     <connections>
+                        <outlet property="emailTextBox" destination="JYu-QG-jE5" id="sOw-hh-tyD"/>
+                        <outlet property="passwordTextBox" destination="XWN-mG-Ba1" id="iGm-0P-Ga6"/>
+                        <outlet property="statusMessageLabel" destination="ufh-rV-Yoh" id="sOb-YZ-DsD"/>
                         <segue destination="irl-Fk-UKc" kind="show" identifier="segueLoginSignup" id="D1g-58-9Kn"/>
                     </connections>
                 </viewController>
@@ -231,6 +234,8 @@
                     </tableView>
                     <connections>
                         <segue destination="YJd-aH-F1Y" kind="show" identifier="segueMakeReservation" id="ar9-uN-koG"/>
+                        <segue destination="q5P-2D-QqU" kind="show" identifier="Restaurantmapsegue" id="07O-ZY-lyW"/>
+                        <segue destination="CfV-n3-lH4" kind="show" identifier="showreservationsegue" id="zgv-By-W41"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fSU-kd-OpR" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 import MapKit
 
-class RestaurantMapViewController: UIViewController {
+class RestaurantMapViewController: UIViewController, MKMapViewDelegate {
 
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
