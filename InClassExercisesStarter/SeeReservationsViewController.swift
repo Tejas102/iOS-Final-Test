@@ -15,6 +15,7 @@ class SeeReservationsViewController: UIViewController {
     //MARK: Outlets
     @IBOutlet weak var textField: UITextView!
     
+    @IBOutlet weak var getdataoutlet: UIButton!
     
     // MARK: Firebase variables
     var db:Firestore!
@@ -29,7 +30,35 @@ class SeeReservationsViewController: UIViewController {
         let settings = db.settings
         settings.areTimestampsInSnapshotsEnabled = true
         db.settings = settings
+        
+//        print("Get Data pressed!")
+//
+//        db.collection("reservations").getDocuments() {
+//            (querySnapshot, err) in
+//
+//            // MARK: FB - Boilerplate code to get data from Firestore
+//            if let err = err {
+//                print("Error getting documents: \(err)")
+//            } else {
+//                for document in querySnapshot!.documents {
+//                    //    print("\(document.documentID) => \(document.data())")
+//
+//                    // print everyone's names
+//                    let d = document.data() // grab the row data
+//                    let n = d["name"] as! String // cast the name to a string type
+//                    // String n = (String) d["name"] <-- java
+//                    print("Name: \(n)")
+//
+//
+//                }
+//            }
+//        }
     }
+    
+    @IBAction func getdataaction(_ sender: Any) {
+        
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
